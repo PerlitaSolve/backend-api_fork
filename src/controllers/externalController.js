@@ -112,4 +112,14 @@ const buscarCategoria = async (req, res) => {
     }
 };
 
-module.exports = { poblarProductos, poblarCategoria, anadirCategoria, buscarProducto , buscarCategoria };
+const mostrar = async (req, res) => {
+    try{
+        const row = await pool.query('SELECT * FROM productos');
+        res.json(row.rows);
+    }catch(error){
+        console.log(`Error: ${error}`);
+        res.status(500).json({error: error.message});
+    }   
+};
+
+module.exports = { poblarProductos, poblarCategoria, anadirCategoria, buscarProducto , buscarCategoria, mostrar };
