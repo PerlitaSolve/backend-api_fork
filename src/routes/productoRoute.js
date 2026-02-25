@@ -12,7 +12,7 @@ router.post('/poblarCategoria', poblarCategoria);
 router.post('/anadirCategoria', anadirCategoria);
 router.get('/buscarProducto/:busqueda', buscarProducto);
 router.get ('/buscarCategoria/:busqueda', buscarCategoria);
-router.get('/mostrarProductos', mostrar);
+router.get('/mostrar', mostrar);
 
 
 module.exports = router;
