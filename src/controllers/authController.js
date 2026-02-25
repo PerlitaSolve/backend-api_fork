@@ -26,7 +26,7 @@ const registro = async (req, res)=> {
     }
 };
 
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');//llave de acceso que podemos usar en un sistema
 const login = async (req, res)=>{
     const {email, password}= req.body;
 
@@ -35,7 +35,33 @@ const login = async (req, res)=>{
         if (result.rows.length === 0){
             return res.status(400).json({msg: "Credenciales inválidas"});
         }
+
+        const usuario = result.rows[0];
+        const isMatch = await bcrypt.compare(password, usuario.password);
+
+        if(!isMatch){
+            return res.status(400).json({mensaje:'Password incorrecta'});
+        }
+        const payload={
+            id:usuario.id,
+            rol: usuario.rol,
+            email: usuario.email
+        };
+        const token= jwt.sign(
+            payload,
+            process.env.JWT_SECRET,
+            {expiresIn: '1h'}
+        );
+        res.json({
+            mensaje: 'Bienvenido',
+            token: token
+        });
+    }catch(error){
+        console.log(error);
+        res.status(500).json({error: `Error en el servidor`});
+
+    
     }
 }
 
-module.exports = {registro};
+module.exports = {registro, login};
