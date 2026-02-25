@@ -33,14 +33,14 @@ const login = async (req, res)=>{
     try{
         const result = await pool.query('SELECT * FROM usuarios WHERE email = $1', [email]);
         if (result.rows.length === 0){
-            return res.status(400).json({msg: "Credenciales inválidas"});
+            return res.status(400).json({msg: "Credenciales inválidas (correo)"});
         }
 
         const usuario = result.rows[0];
         const isMatch = await bcrypt.compare(password, usuario.password);
 
         if(!isMatch){
-            return res.status(400).json({mensaje:'Password incorrecta'});
+            return res.status(400).json({mensaje:'Password incorrecta (password)'});
         }
         const payload={
             id:usuario.id,
