@@ -122,4 +122,35 @@ const mostrar = async (req, res) => {
     }   
 };
 
-module.exports = { poblarProductos, poblarCategoria, anadirCategoria, buscarProducto , buscarCategoria, mostrar };
+const crearProducto = async (req, res)=>{
+    
+    const {nombre, precio, stock, id_categoria, descripcion,imagen_url }= req.body;
+
+    try{
+        
+        if(!nombre || nombre.trim()===''){
+            return res.status(400).json({error: 'Ingrese un nombre'});
+        }else if(!parseInt(precio) || precio <=0){
+            return res.status(400).json({error: 'El precio debe ser un entero mayor a 0'});
+        }else if(!Number.isInteger(stock)){
+            return res.status(400).json({error:'Ingrese un número entero'});
+        }
+    
+        const resultado= await pool.query ('INSERT INTO productos (nombre, precio,stock, id_categoria, descripcion, imagen url) VALUES ($1,$2,$3, $4, $5,$6) RETURNING id', [nombre, precio, stock, id_categoria, descripcion, imagen_url]);
+        res.status(201).json({
+            id: resultado.rows[0].id,
+            name: nombre,
+            costo: precio, 
+            cantidad: stock,
+            categoria: id_categoria,
+            descripcion: descripcion,
+            imagen: imagen_url
+        });
+        
+
+    }catch(error){
+        res.status(500).json({mensaje: error});
+    }
+}
+
+module.exports = { poblarProductos, poblarCategoria, anadirCategoria, buscarProducto , buscarCategoria, mostrar, crearProducto };
