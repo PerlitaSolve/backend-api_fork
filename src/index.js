@@ -13,4 +13,4 @@ app.use('/api/productos', router);
 app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log("Servicio arriba"));
+app.listen(PORT, () => console.log("Servicio arriba, en puerto " + PORT));

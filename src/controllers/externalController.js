@@ -113,6 +113,7 @@ const buscarCategoria = async (req, res) => {
 };
 
 const mostrar = async (req, res) => {
+    console.log('Mostrar productos');
     try{
         const row = await pool.query('SELECT * FROM productos');
         res.json(row.rows);
