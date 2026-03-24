@@ -125,12 +125,12 @@ const mostrar = async (req, res) => {
 
 const crearProducto = async (req, res)=>{
     console.log('xddd');
-    const {nombre, precio, stock, id_categoria, descripcion,imagen_url, youtube_id }= req.body;
+    const {nombre, precio, stock, id_categoria, descripcion,imagen_url, youtube_id, latitud, longitud }= req.body;
     console.log(req.body);
     try{
         
         console.log('Por insertarrr');
-        const resultado= await pool.query ('INSERT INTO productos (nombre, precio,stock, id_categoria, descripcion, imagen_url, youtube_id) VALUES ($1,$2,$3, $4, $5,$6, $7) RETURNING id', [nombre, precio, stock, id_categoria, descripcion, imagen_url, youtube_id]);
+        const resultado= await pool.query ('INSERT INTO productos (nombre, precio,stock, id_categoria, descripcion, imagen_url, youtube_id, latitud, longitud) VALUES ($1,$2,$3, $4, $5,$6, $7, $8, $9) RETURNING id', [nombre, precio, stock, id_categoria, descripcion, imagen_url, youtube_id, latitud, longitud]);
         res.status(201).json({
             id: resultado.rows[0].id,
             name: nombre,
@@ -139,7 +139,9 @@ const crearProducto = async (req, res)=>{
             categoria: id_categoria,
             descripcion: descripcion,
             imagen: imagen_url,
-            youtube_id: youtube_id
+            youtube_id: youtube_id,
+            latitud: latitud,
+            longitud: longitud
         });
         
 
