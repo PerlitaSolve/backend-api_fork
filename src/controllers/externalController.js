@@ -15,11 +15,11 @@ const poblarProductos = async (request, response) => {
 
             const query = `
                 INSERT INTO productos
-                (nombre, precio, stock, descripcion, imagen_url)
-                VALUES ($1, $2, $3, $4, $5)
+                (nombre, precio, stock, id_categoria, descripcion, imagen_url)
+                VALUES ($1, $2, $3, (select id from categoria where nombre =$4), $5, $6)
             `
 
-            await pool.query(query, [title, price, stock, description, image, category]);
+            await pool.query(query, [title, price, stock, category, description, image]);
 
             inserciones++;
         }
@@ -143,6 +143,7 @@ const crearProducto = async (req, res)=>{
             latitud: latitud,
             longitud: longitud
         });
+        console.log('Si se inserto');
         
 
     }catch(error){
